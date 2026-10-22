@@ -1,1 +1,0 @@
-# Kalkulator-Faraidh-Waris
