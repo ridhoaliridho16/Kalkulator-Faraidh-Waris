@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Waris Islam (Faraidh) - Muhammad Ali Ridho (IAIN Pontianak)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            emerald: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      body { background-color: #fff; color: #000; }
+      .card-box { border: 1px solid #ccc; box-shadow: none !important; }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+  <!-- Header / Navigation -->
+  <header class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white shadow-xl sticky top-0 z-50 no-print border-b border-emerald-700/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3.5">
+        <div class="p-2.5 bg-emerald-700/60 rounded-xl border border-emerald-500/30 shadow-inner">
+          <i class="fa-solid fa-scale-balanced text-2xl text-emerald-300"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight">Kalkulator Faraidh</h1>
+            <span class="bg-emerald-700/80 text-emerald-200 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30">Versi Akademis</span>
+          </div>
+          <p class="text-xs text-emerald-200 flex items-center gap-1.5 mt-0.5">
+            <span>Sistem Pembagian Waris Islam</span>
+            <span class="opacity-40">•</span>
+            <span class="font-medium text-emerald-100">KHI & Fiqh Mawaris</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Author Identity Badge -->
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex flex-col text-right border-r border-emerald-700/80 pr-3.5">
+          <span class="text-xs font-bold text-white tracking-wide">Muhammad Ali Ridho</span>
+          <span class="text-[11px] text-emerald-300 font-medium">IAIN Pontianak</span>
+        </div>
+        <button onclick="resetForm()" class="px-3.5 py-2 rounded-xl bg-emerald-700/50 hover:bg-emerald-700 text-emerald-100 transition flex items-center gap-2 border border-emerald-600/50 text-xs font-semibold shadow-sm">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
+    
+    <!-- Title Header for Print Only -->
+    <div class="hidden print-only mb-6 text-center border-b pb-4 border-slate-300">
+      <h1 class="text-2xl font-bold text-slate-900">Laporan Hasil Pembagian Harta Waris (Faraidh)</h1>
+      <p class="text-sm text-slate-600 mt-1">Dihitung berdasarkan Fiqh Mawaris & Kompilasi Hukum Islam (KHI)</p>
+      <div class="mt-3 text-xs text-slate-500 flex justify-center gap-4 font-semibold">
+        <span>Pengembang: Muhammad Ali Ridho</span>
+        <span>•</span>
+        <span>Institusi: IAIN Pontianak</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- LEFT COLUMN: Form Inputs (5 cols on lg) -->
+      <section class="lg:col-span-5 space-y-6 no-print">
+        
+        <!-- Step 1: Data Harta & Beban (OPSIONAL) -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">1</span>
+              <div>
+                <h2 class="font-semibold text-lg text-slate-800">Harta & Pengurangan</h2>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full">Opsional</span>
+          </div>
+          
+          <div class="space-y-4">
+            <p class="text-xs text-slate-500">
+              <i class="fa-solid fa-circle-info text-emerald-600 mr-1"></i> Biarkan kosong atau isi 0 jika hanya ingin menghitung <strong>porsi persentase (%) & bagian pecahan</strong> tanpa nominal nominal uang.
+            </p>
+
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                Total Harta Peninggalan (Kotor)
+              </label>
+              <div class="relative rounded-xl shadow-sm">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 font-medium text-sm">
+                  Rp
+                </div>
+                <input type="text" id="inputTotalHarta" onkeyup="formatCurrencyInput(this)" placeholder="Opsional (Kosongkan jika hanya persentase)" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm font-semibold text-slate-800 placeholder-slate-400">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">
+                  Biaya Pengurusan Jenazah
+                </label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">Rp</span>
+                  <input type="text" id="inputBiayaJenazah" onkeyup="formatCurrencyInput(this)" placeholder="0" class="w-full pl-8 pr-3 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-xs">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">
+                  Hutang & Wasiat (Maks 1/3)
+                </label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">Rp</span>
+                  <input type="text" id="inputHutangWasiat" onkeyup="formatCurrencyInput(this)" placeholder="0" class="w-full pl-8 pr-3 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-xs">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Data Pewaris & Pasangan -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+          <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">2</span>
+            <h2 class="font-semibold text-lg text-slate-800">Identitas Pewaris & Pasangan</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">
+                Jenis Kelamin Pewaris
+              </label>
+              <div class="grid grid-cols-2 gap-3">
+                <label class="flex items-center justify-center p-3 border-2 rounded-xl cursor-pointer transition hover:bg-slate-50 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50/50 has-[:checked]:text-emerald-800">
+                  <input type="radio" name="genderPewaris" value="L" checked onchange="toggleGenderFields()" class="sr-only">
+                  <i class="fa-solid fa-mars mr-2 text-blue-600"></i>
+                  <span class="text-sm font-medium">Laki-laki</span>
+                </label>
+                <label class="flex items-center justify-center p-3 border-2 rounded-xl cursor-pointer transition hover:bg-slate-50 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50/50 has-[:checked]:text-emerald-800">
+                  <input type="radio" name="genderPewaris" value="P" onchange="toggleGenderFields()" class="sr-only">
+                  <i class="fa-solid fa-venus mr-2 text-pink-600"></i>
+                  <span class="text-sm font-medium">Perempuan</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Field Dynamic Pasangan -->
+            <div id="fieldIstri" class="transition-all">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                Jumlah Istri yang Ditinggalkan
+              </label>
+              <select id="selectIstri" class="w-full py-2.5 px-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                <option value="0">Tidak Ada (Sudah Wafat/Cerai)</option>
+                <option value="1">1 Istri</option>
+                <option value="2">2 Istri</option>
+                <option value="3">3 Istri</option>
+                <option value="4">4 Istri</option>
+              </select>
+            </div>
+
+            <div id="fieldSuami" class="hidden transition-all">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                Status Suami
+              </label>
+              <select id="selectSuami" class="w-full py-2.5 px-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                <option value="0">Tidak Ada / Sudah Wafat</option>
+                <option value="1">Ada Suami</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Keturunan & Orang Tua -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+          <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">3</span>
+            <h2 class="font-semibold text-lg text-slate-800">Anak, Orang Tua & Cucu</h2>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Orang Tua -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Ayah Kandung</label>
+                <select id="selectAyah" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+                  <option value="1">Hidup</option>
+                  <option value="0">Sudah Meninggal</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Ibu Kandung</label>
+                <select id="selectIbu" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+                  <option value="1">Hidup</option>
+                  <option value="0">Sudah Meninggal</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Anak -->
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Anak Laki-laki</label>
+                <input type="number" min="0" id="inputAnakLaki" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Anak Perempuan</label>
+                <input type="number" min="0" id="inputAnakPerempuan" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
+
+            <!-- Cucu (Dari Anak Laki-laki) -->
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div class="col-span-2">
+                <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">Cucu (Dari Anak Laki-laki)</span>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Cucu Laki-laki</label>
+                <input type="number" min="0" id="inputCucuLaki" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Cucu Perempuan</label>
+                <input type="number" min="0" id="inputCucuPerempuan" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
+
+            <!-- Kakek & Nenek -->
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Kakek (Ayah dari Ayah)</label>
+                <select id="selectKakek" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+                  <option value="0">Tidak Ada / Meninggal</option>
+                  <option value="1">Hidup</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Nenek (Dari Ibu/Ayah)</label>
+                <input type="number" min="0" max="2" id="inputNenek" value="0" placeholder="0-2" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Saudara / Saudari -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+          <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">4</span>
+            <h2 class="font-semibold text-lg text-slate-800">Saudara / Saudari</h2>
+          </div>
+
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Sdr Laki Kandung</label>
+                <input type="number" min="0" id="inputSdrLakiKandung" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Sdr Peremp Kandung</label>
+                <input type="number" min="0" id="inputSdrPerempuanKandung" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Sdr Laki Seayah</label>
+                <input type="number" min="0" id="inputSdrLakiSeayah" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Sdr Peremp Seayah</label>
+                <input type="number" min="0" id="inputSdrPerempuanSeayah" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Sdr Laki Seibu</label>
+                <input type="number" min="0" id="inputSdrLakiSeibu" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Sdr Peremp Seibu</label>
+                <input type="number" min="0" id="inputSdrPerempuanSeibu" value="0" class="w-full py-2 px-3 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="hitungFaraidh()" class="w-full py-4 px-6 bg-emerald-700 hover:bg-emerald-800 active:bg-emerald-900 text-white font-bold rounded-2xl shadow-lg shadow-emerald-700/20 transition-all flex items-center justify-center gap-3 text-base cursor-pointer">
+          <i class="fa-solid fa-calculator text-lg"></i> Hitung Pembagian Waris
+        </button>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Output & Visualization (7 cols on lg) -->
+      <section class="lg:col-span-7 space-y-6">
+
+        <!-- Summary Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <span class="text-xs font-medium text-slate-500 block">Total Harta Kotor</span>
+            <span id="outHartaKotor" class="text-lg sm:text-xl font-bold text-slate-800 block mt-1">-</span>
+          </div>
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <span class="text-xs font-medium text-slate-500 block">Pengurangan (Beban)</span>
+            <span id="outTotalBeban" class="text-lg sm:text-xl font-bold text-amber-600 block mt-1">-</span>
+          </div>
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-emerald-200 bg-emerald-50/30 shadow-sm">
+            <span class="text-xs font-semibold text-emerald-800 block">Harta Bersih Siap Bagi</span>
+            <span id="outHartaBersih" class="text-xl sm:text-2xl font-black text-emerald-700 block mt-1">-</span>
+          </div>
+        </div>
+
+        <!-- Special Status Notice ('Awl / Radd / Mode Persentase Only) -->
+        <div id="noticeModeStatus" class="p-4 rounded-xl border bg-blue-50 border-blue-200 text-blue-900 text-xs sm:text-sm leading-relaxed">
+          <i class="fa-solid fa-circle-info text-blue-600 mr-1.5"></i>
+          <span>Mode <strong>Persentase & Bagian Pecahan</strong> aktif secara default. Isi nominal harta jika ingin melihat pembagian dalam bentuk Rupiah.</span>
+        </div>
+        
+        <div id="noticeSpecialCase" class="hidden p-4 rounded-xl border text-xs sm:text-sm leading-relaxed"></div>
+
+        <!-- Chart Visualization & Summary -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+          <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
+            <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+              <i class="fa-solid fa-chart-pie text-emerald-600"></i> Visualisasi Proporsi Pembagian
+            </h3>
+            <button onclick="window.print()" class="no-print text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center gap-1.5">
+              <i class="fa-solid fa-print"></i> Cetak / PDF
+            </button>
+          </div>
+          <div class="relative flex justify-center items-center min-h-[220px] max-h-[300px]">
+            <canvas id="faraidhChart"></canvas>
+            <div id="chartPlaceholder" class="absolute inset-0 flex items-center justify-center text-slate-400 text-sm">
+              Tekan "Hitung Pembagian Waris" untuk melihat grafik
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+          <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+              <i class="fa-solid fa-list-check text-emerald-600"></i> Rincian Pembagian Ahli Waris
+            </h3>
+          </div>
+          
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-50 text-slate-600 uppercase tracking-wider text-[11px] border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4">Ahli Waris</th>
+                  <th class="py-3 px-3 text-center">Jumlah</th>
+                  <th class="py-3 px-3">Status / Porsi</th>
+                  <th class="py-3 px-3 text-right">% Total</th>
+                  <th class="py-3 px-4 text-right">Nominal Kelompok</th>
+                  <th class="py-3 px-4 text-right">Nominal / Orang</th>
+                </tr>
+              </thead>
+              <tbody id="tableResultBody" class="divide-y divide-slate-100 font-medium">
+                <tr>
+                  <td colspan="6" class="text-center py-8 text-slate-400">
+                    <i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>
+                    Belum ada data perhitungan. Silakan pilih susunan ahli waris dan klik hitung.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Educational Explanation Block -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+          <h3 class="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-book-open text-emerald-600"></i> Dasar Hukum & Penjelasan Landasan
+          </h3>
+          <div id="explanationContainer" class="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed max-h-80 overflow-y-auto custom-scrollbar pr-2">
+            <p class="text-slate-400 italic">Penjelasan detail hukum perolehan masing-masing ahli waris akan muncul di sini setelah kalkulasi dilakukan.</p>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer with Academic Branding -->
+  <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 text-xs no-print">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+      <div class="flex flex-wrap justify-center items-center gap-2 font-medium text-slate-200">
+        <span>Kalkulator Waris Islam (Faraidh)</span>
+        <span>•</span>
+        <span class="text-emerald-400 font-semibold">Muhammad Ali Ridho</span>
+        <span>•</span>
+        <span class="text-slate-300">IAIN Pontianak</span>
+      </div>
+      <p class="text-slate-500 max-w-3xl mx-auto">
+        Dikembangkan berdasarkan kaidah Fiqh Mawaris (Mazhab Syafi'i & Jumhur Ulama) serta Kompilasi Hukum Islam (KHI) Bab II Hukum Kewarisan di Indonesia.
+      </p>
+      <p class="text-[11px] text-slate-600">
+        © Institut Agama Islam Negeri (IAIN) Pontianak. Dibuat untuk tujuan edukasi & kemudahan umat.
+      </p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Global Chart Instance
+    let faraidhChartInstance = null;
+
+    // Currency Formatter Helper
+    function formatRupiah(number) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        maximumFractionDigits: 0
+      }).format(number);
+    }
+
+    function parseInputNumber(id) {
+      const el = document.getElementById(id);
+      if (!el) return 0;
+      const rawVal = el.value.replace(/[^0-9]/g, '');
+      return parseInt(rawVal) || 0;
+    }
+
+    function formatCurrencyInput(input) {
+      let val = input.value.replace(/[^0-9]/g, '');
+      if (val === '') {
+        input.value = '';
+        return;
+      }
+      input.value = parseInt(val, 10).toLocaleString('id-ID');
+    }
+
+    function toggleGenderFields() {
+      const gender = document.querySelector('input[name="genderPewaris"]:checked').value;
+      const fieldIstri = document.getElementById('fieldIstri');
+      const fieldSuami = document.getElementById('fieldSuami');
+
+      if (gender === 'L') {
+        fieldIstri.classList.remove('hidden');
+        fieldSuami.classList.add('hidden');
+        document.getElementById('selectSuami').value = '0';
+      } else {
+        fieldIstri.classList.add('hidden');
+        fieldSuami.classList.remove('hidden');
+        document.getElementById('selectIstri').value = '0';
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('inputTotalHarta').value = '';
+      document.getElementById('inputBiayaJenazah').value = '';
+      document.getElementById('inputHutangWasiat').value = '';
+      
+      document.querySelector('input[name="genderPewaris"][value="L"]').checked = true;
+      toggleGenderFields();
+
+      document.getElementById('selectIstri').value = '0';
+      document.getElementById('selectSuami').value = '0';
+      document.getElementById('selectAyah').value = '1';
+      document.getElementById('selectIbu').value = '1';
+
+      ['inputAnakLaki', 'inputAnakPerempuan', 'inputCucuLaki', 'inputCucuPerempuan', 'inputNenek',
+       'inputSdrLakiKandung', 'inputSdrPerempuanKandung', 'inputSdrLakiSeayah', 
+       'inputSdrPerempuanSeayah', 'inputSdrLakiSeibu', 'inputSdrPerempuanSeibu'].forEach(id => {
+        document.getElementById(id).value = '0';
+      });
+
+      document.getElementById('selectKakek').value = '0';
+
+      // Clear Outputs
+      document.getElementById('outHartaKotor').innerText = '-';
+      document.getElementById('outTotalBeban').innerText = '-';
+      document.getElementById('outHartaBersih').innerText = '-';
+      
+      document.getElementById('noticeSpecialCase').classList.add('hidden');
+      document.getElementById('noticeModeStatus').innerHTML = `
+        <i class="fa-solid fa-circle-info text-blue-600 mr-1.5"></i>
+        <span>Mode <strong>Persentase & Bagian Pecahan</strong> aktif secara default. Isi nominal harta jika ingin melihat pembagian dalam bentuk Rupiah.</span>
+      `;
+
+      document.getElementById('tableResultBody').innerHTML = `
+        <tr>
+          <td colspan="6" class="text-center py-8 text-slate-400">
+            <i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>
+            Belum ada data perhitungan. Silakan pilih susunan ahli waris dan klik hitung.
+          </td>
+        </tr>
+      `;
+      document.getElementById('explanationContainer').innerHTML = `<p class="text-slate-400 italic">Penjelasan detail hukum perolehan masing-masing ahli waris akan muncul di sini setelah kalkulasi dilakukan.</p>`;
+      
+      if (faraidhChartInstance) {
+        faraidhChartInstance.destroy();
+        faraidhChartInstance = null;
+      }
+      document.getElementById('chartPlaceholder').classList.remove('hidden');
+    }
+
+    // MAIN FARAIDH CALCULATOR ENGINE
+    function hitungFaraidh() {
+      // 1. Data Financial (OPSIONAL)
+      const hartaKotor = parseInputNumber('inputTotalHarta');
+      const biayaJenazah = parseInputNumber('inputBiayaJenazah');
+      const hutangWasiat = parseInputNumber('inputHutangWasiat');
+
+      const totalBeban = biayaJenazah + hutangWasiat;
+      const hartaBersih = Math.max(0, hartaKotor - totalBeban);
+
+      const isCurrencyMode = (hartaKotor > 0);
+
+      // Update Summary Cards
+      if (isCurrencyMode) {
+        document.getElementById('outHartaKotor').innerText = formatRupiah(hartaKotor);
+        document.getElementById('outTotalBeban').innerText = formatRupiah(totalBeban);
+        document.getElementById('outHartaBersih').innerText = formatRupiah(hartaBersih);
+        
+        document.getElementById('noticeModeStatus').innerHTML = `
+          <i class="fa-solid fa-check-circle text-emerald-600 mr-1.5"></i>
+          <span>Mode <strong>Pembagian Nominal Harta Rupiah</strong> aktif. Total harta bersih: <strong>${formatRupiah(hartaBersih)}</strong>.</span>
+        `;
+      } else {
+        document.getElementById('outHartaKotor').innerText = "Tidak Diisi";
+        document.getElementById('outTotalBeban').innerText = totalBeban > 0 ? formatRupiah(totalBeban) : "Tidak Diisi";
+        document.getElementById('outHartaBersih').innerText = "Hanya Persentase (%)";
+
+        document.getElementById('noticeModeStatus').innerHTML = `
+          <i class="fa-solid fa-chart-pie text-blue-600 mr-1.5"></i>
+          <span>Mode <strong>Porsi Pecahan & Persentase (%)</strong>. Nominal Rupiah disembunyikan karena harta kotor tidak diisi.</span>
+        `;
+      }
+
+      // 2. Data Heir Counting
+      const gender = document.querySelector('input[name="genderPewaris"]:checked').value;
+      const suami = (gender === 'P') ? parseInt(document.getElementById('selectSuami').value) : 0;
+      const istri = (gender === 'L') ? parseInt(document.getElementById('selectIstri').value) : 0;
+
+      const ayah = parseInt(document.getElementById('selectAyah').value);
+      const ibu = parseInt(document.getElementById('selectIbu').value);
+
+      const anakLaki = parseInputNumber('inputAnakLaki');
+      const anakPerempuan = parseInputNumber('inputAnakPerempuan');
+
+      const cucuLaki = parseInputNumber('inputCucuLaki');
+      const cucuPerempuan = parseInputNumber('inputCucuPerempuan');
+
+      const kakek = parseInt(document.getElementById('selectKakek').value);
+      const nenek = parseInputNumber('inputNenek');
+
+      const sdrLakiKandung = parseInputNumber('inputSdrLakiKandung');
+      const sdrPerempuanKandung = parseInputNumber('inputSdrPerempuanKandung');
+
+      const sdrLakiSeayah = parseInputNumber('inputSdrLakiSeayah');
+      const sdrPerempuanSeayah = parseInputNumber('inputSdrPerempuanSeayah');
+
+      const sdrLakiSeibu = parseInputNumber('inputSdrLakiSeibu');
+      const sdrPerempuanSeibu = parseInputNumber('inputSdrPerempuanSeibu');
+
+      // Total Far'u (Keturunan) & Total Saudara
+      const totalAnak = anakLaki + anakPerempuan;
+      const adaKeturunan = (totalAnak > 0) || (cucuLaki > 0) || (cucuPerempuan > 0);
+      const totalSaudaraAll = sdrLakiKandung + sdrPerempuanKandung + sdrLakiSeayah + sdrPerempuanSeayah + sdrLakiSeibu + sdrPerempuanSeibu;
+
+      // Helper function to register heir
+      function addHeir(key, name, count, isHijab, reasonHijab = "") {
+        return {
+          key,
+          name,
+          count,
+          isHijab,
+          reasonHijab,
+          shareFraction: 0, 
+          shareText: "",    
+          finalNominal: 0,
+          percent: 0,
+          explanation: ""
+        };
+      }
+
+      // LIST ALL HEIRS & PROCESS HIJAB (PENGHIJABAN)
+      
+      let hSuami = addHeir('suami', 'Suami', suami, suami === 0);
+      let hIstri = addHeir('istri', 'Istri', istri, istri === 0);
+
+      let hAyah = addHeir('ayah', 'Ayah Kandung', ayah, ayah === 0);
+      let hIbu = addHeir('ibu', 'Ibu Kandung', ibu, ibu === 0);
+
+      let hAnakLaki = addHeir('anakLaki', 'Anak Laki-laki', anakLaki, anakLaki === 0);
+      let hAnakPerempuan = addHeir('anakPerempuan', 'Anak Perempuan', anakPerempuan, anakPerempuan === 0);
+
+      let cucuMahjub = (anakLaki > 0);
+      let hCucuLaki = addHeir('cucuLaki', 'Cucu Laki-laki (dari Anak Laki)', cucuLaki, cucuLaki === 0 || cucuMahjub, cucuMahjub ? "Terhalang oleh Anak Laki-laki" : "");
+      let hCucuPerempuan = addHeir('cucuPerempuan', 'Cucu Perempuan (dari Anak Laki)', cucuPerempuan, cucuPerempuan === 0 || cucuMahjub, cucuMahjub ? "Terhalang oleh Anak Laki-laki" : "");
+
+      let kakekMahjub = (ayah === 1);
+      let hKakek = addHeir('kakek', 'Kakek (Ayah dari Ayah)', kakek, kakek === 0 || kakekMahjub, kakekMahjub ? "Terhalang oleh Ayah Kandung" : "");
+      
+      let nenekMahjub = (ibu === 1);
+      let hNenek = addHeir('nenek', 'Nenek', nenek, nenek === 0 || nenekMahjub, nenekMahjub ? "Terhalang oleh Ibu Kandung" : "");
+
+      let sdrKandungMahjub = (ayah === 1 || anakLaki > 0 || cucuLaki > 0);
+      let reasonSdrKandung = sdrKandungMahjub ? "Terhalang oleh Ayah / Anak Laki / Cucu Laki" : "";
+
+      let hSdrLakiKandung = addHeir('sdrLakiKandung', 'Saudara Laki-laki Kandung', sdrLakiKandung, sdrLakiKandung === 0 || sdrKandungMahjub, reasonSdrKandung);
+      let hSdrPerempuanKandung = addHeir('sdrPerempuanKandung', 'Saudara Perempuan Kandung', sdrPerempuanKandung, sdrPerempuanKandung === 0 || sdrKandungMahjub, reasonSdrKandung);
+
+      let sdrSeayahMahjub = sdrKandungMahjub || (sdrLakiKandung > 0);
+      let reasonSdrSeayah = sdrSeayahMahjub ? "Terhalang oleh Ayah / Keturunan / Saudara Kandung" : "";
+
+      let hSdrLakiSeayah = addHeir('sdrLakiSeayah', 'Saudara Laki-laki Seayah', sdrLakiSeayah, sdrLakiSeayah === 0 || sdrSeayahMahjub, reasonSdrSeayah);
+      let hSdrPerempuanSeayah = addHeir('sdrPerempuanSeayah', 'Saudara Perempuan Seayah', sdrPerempuanSeayah, sdrPerempuanSeayah === 0 || sdrSeayahMahjub, reasonSdrSeayah);
+
+      let sdrSeibuMahjub = (adaKeturunan || ayah === 1 || kakek === 1);
+      let reasonSdrSeibu = sdrSeibuMahjub ? "Terhalang oleh Anak/Cucu atau Ayah/Kakek" : "";
+
+      let hSdrLakiSeibu = addHeir('sdrLakiSeibu', 'Saudara Laki-laki Seibu', sdrLakiSeibu, sdrLakiSeibu === 0 || sdrSeibuMahjub, reasonSdrSeibu);
+      let hSdrPerempuanSeibu = addHeir('sdrPerempuanSeibu', 'Saudara Perempuan Seibu', sdrPerempuanSeibu, sdrPerempuanSeibu === 0 || sdrSeibuMahjub, reasonSdrSeibu);
+
+      // PERHITUNGAN FURUD & ASABAH
+      if (!hSuami.isHijab) {
+        if (adaKeturunan) {
+          hSuami.shareFraction = 1/4;
+          hSuami.shareText = "1/4";
+          hSuami.explanation = "Mendapat 1/4 karena pewaris memiliki keturunan.";
+        } else {
+          hSuami.shareFraction = 1/2;
+          hSuami.shareText = "1/2";
+          hSuami.explanation = "Mendapat 1/2 karena pewaris tidak memiliki keturunan.";
+        }
+      }
+
+      if (!hIstri.isHijab) {
+        if (adaKeturunan) {
+          hIstri.shareFraction = 1/8;
+          hIstri.shareText = "1/8";
+          hIstri.explanation = "Mendapat 1/8 (dibagi rata jika lebih dari 1 istri) karena ada keturunan.";
+        } else {
+          hIstri.shareFraction = 1/4;
+          hIstri.shareText = "1/4";
+          hIstri.explanation = "Mendapat 1/4 (dibagi rata jika lebih dari 1 istri) karena tidak ada keturunan.";
+        }
+      }
+
+      if (!hIbu.isHijab) {
+        if (adaKeturunan || totalSaudaraAll >= 2) {
+          hIbu.shareFraction = 1/6;
+          hIbu.shareText = "1/6";
+          hIbu.explanation = "Mendapat 1/6 karena ada keturunan atau ada 2/lebih saudara.";
+        } else {
+          hIbu.shareFraction = 1/3;
+          hIbu.shareText = "1/3";
+          hIbu.explanation = "Mendapat 1/3 karena tidak ada keturunan dan tidak ada 2/lebih saudara.";
+        }
+      }
+
+      if (!hNenek.isHijab) {
+        hNenek.shareFraction = 1/6;
+        hNenek.shareText = "1/6";
+        hNenek.explanation = "Mendapat 1/6 (dibagi rata jika lebih dari 1) sebagai pengganti Ibu.";
+      }
+
+      let ayahIsAsabah = false;
+      if (!hAyah.isHijab) {
+        if (anakLaki > 0 || cucuLaki > 0) {
+          hAyah.shareFraction = 1/6;
+          hAyah.shareText = "1/6";
+          hAyah.explanation = "Mendapat 1/6 pasti karena ada keturunan laki-laki.";
+        } else if (anakPerempuan > 0 || cucuPerempuan > 0) {
+          hAyah.shareFraction = 1/6;
+          hAyah.shareText = "1/6 + Asabah";
+          hAyah.explanation = "Mendapat 1/6 pasti ditambah sisa (Asabah) karena hanya ada keturunan perempuan.";
+          ayahIsAsabah = true;
+        } else {
+          ayahIsAsabah = true;
+          hAyah.shareText = "Asabah";
+          hAyah.explanation = "Mendapat seluruh sisa harta (Asabah bi Nafsi) karena tidak ada keturunan.";
+        }
+      }
+
+      let kakekIsAsabah = false;
+      if (!hKakek.isHijab) {
+        if (anakLaki > 0 || cucuLaki > 0) {
+          hKakek.shareFraction = 1/6;
+          hKakek.shareText = "1/6";
+          hKakek.explanation = "Mendapat 1/6 pasti karena ada keturunan laki-laki.";
+        } else if (anakPerempuan > 0 || cucuPerempuan > 0) {
+          hKakek.shareFraction = 1/6;
+          hKakek.shareText = "1/6 + Asabah";
+          hKakek.explanation = "Mendapat 1/6 ditambah sisa harta (Asabah) karena Ayah meninggal & ada keturunan perempuan.";
+          kakekIsAsabah = true;
+        } else {
+          kakekIsAsabah = true;
+          hKakek.shareText = "Asabah";
+          hKakek.explanation = "Mendapat sisa harta (Asabah) menggantikan posisi Ayah.";
+        }
+      }
+
+      if (!hAnakPerempuan.isHijab && anakLaki === 0) {
+        if (anakPerempuan === 1) {
+          hAnakPerempuan.shareFraction = 1/2;
+          hAnakPerempuan.shareText = "1/2";
+          hAnakPerempuan.explanation = "Mendapat 1/2 karena anak perempuan tunggal dan tidak ada anak laki-laki.";
+        } else if (anakPerempuan > 1) {
+          hAnakPerempuan.shareFraction = 2/3;
+          hAnakPerempuan.shareText = "2/3";
+          hAnakPerempuan.explanation = "Mendapat 2/3 (dibagi rata) karena terdiri dari 2/lebih anak perempuan.";
+        }
+      }
+
+      if (!hCucuPerempuan.isHijab && cucuLaki === 0) {
+        if (anakPerempuan === 0) {
+          if (cucuPerempuan === 1) {
+            hCucuPerempuan.shareFraction = 1/2;
+            hCucuPerempuan.shareText = "1/2";
+            hCucuPerempuan.explanation = "Mendapat 1/2 karena cucu perempuan tunggal.";
+          } else {
+            hCucuPerempuan.shareFraction = 2/3;
+            hCucuPerempuan.shareText = "2/3";
+            hCucuPerempuan.explanation = "Mendapat 2/3 (dibagi rata) karena 2/lebih cucu perempuan.";
+          }
+        } else if (anakPerempuan === 1) {
+          hCucuPerempuan.shareFraction = 1/6;
+          hCucuPerempuan.shareText = "1/6";
+          hCucuPerempuan.explanation = "Mendapat 1/6 sebagai pelengkap 2/3 bagian anak perempuan.";
+        } else if (anakPerempuan >= 2) {
+          hCucuPerempuan.isHijab = true;
+          hCucuPerempuan.reasonHijab = "Bagian 2/3 telah dihabiskan oleh 2/lebih anak perempuan";
+          hCucuPerempuan.explanation = "Terhalang karena bagian anak perempuan sudah genap 2/3.";
+        }
+      }
+
+      const totalSdrSeibu = sdrLakiSeibu + sdrPerempuanSeibu;
+      if (totalSdrSeibu > 0 && !sdrSeibuMahjub) {
+        let fractionSeibu = (totalSdrSeibu === 1) ? (1/6) : (1/3);
+        let textSeibu = (totalSdrSeibu === 1) ? "1/6" : "1/3";
+        
+        if (!hSdrLakiSeibu.isHijab) {
+          hSdrLakiSeibu.shareFraction = fractionSeibu * (sdrLakiSeibu / totalSdrSeibu);
+          hSdrLakiSeibu.shareText = textSeibu + " (rata L/P)";
+          hSdrLakiSeibu.explanation = `Mendapat bagian ${textSeibu} (dibagi rata antara laki-laki dan perempuan).`;
+        }
+        if (!hSdrPerempuanSeibu.isHijab) {
+          hSdrPerempuanSeibu.shareFraction = fractionSeibu * (sdrPerempuanSeibu / totalSdrSeibu);
+          hSdrPerempuanSeibu.shareText = textSeibu + " (rata L/P)";
+          hSdrPerempuanSeibu.explanation = `Mendapat bagian ${textSeibu} (dibagi rata antara laki-laki dan perempuan).`;
+        }
+      }
+
+      if (!hSdrPerempuanKandung.isHijab && sdrLakiKandung === 0) {
+        if (!adaKeturunan && ayah === 0) {
+          if (sdrPerempuanKandung === 1) {
+            hSdrPerempuanKandung.shareFraction = 1/2;
+            hSdrPerempuanKandung.shareText = "1/2";
+            hSdrPerempuanKandung.explanation = "Mendapat 1/2 karena tunggal dan tidak ada keturunan/ayah.";
+          } else {
+            hSdrPerempuanKandung.shareFraction = 2/3;
+            hSdrPerempuanKandung.shareText = "2/3";
+            hSdrPerempuanKandung.explanation = "Mendapat 2/3 (dibagi rata) karena 2/lebih dan tidak ada keturunan/ayah.";
+          }
+        } else if ((anakPerempuan > 0 || cucuPerempuan > 0) && anakLaki === 0 && cucuLaki === 0) {
+          hSdrPerempuanKandung.shareText = "Asabah ma'al Ghairi";
+          hSdrPerempuanKandung.explanation = "Mendapat sisa harta (Asabah ma'al Ghairi) bersama keturunan perempuan.";
+        }
+      }
+
+      if (!hSdrPerempuanSeayah.isHijab && sdrLakiSeayah === 0 && sdrLakiKandung === 0) {
+        if (!adaKeturunan && ayah === 0) {
+          if (sdrPerempuanKandung === 0) {
+            if (sdrPerempuanSeayah === 1) {
+              hSdrPerempuanSeayah.shareFraction = 1/2;
+              hSdrPerempuanSeayah.shareText = "1/2";
+              hSdrPerempuanSeayah.explanation = "Mendapat 1/2 karena tunggal dan tidak ada saudara kandung.";
+            } else {
+              hSdrPerempuanSeayah.shareFraction = 2/3;
+              hSdrPerempuanSeayah.shareText = "2/3";
+              hSdrPerempuanSeayah.explanation = "Mendapat 2/3 (dibagi rata) karena 2/lebih.";
+            }
+          } else if (sdrPerempuanKandung === 1) {
+            hSdrPerempuanSeayah.shareFraction = 1/6;
+            hSdrPerempuanSeayah.shareText = "1/6";
+            hSdrPerempuanSeayah.explanation = "Mendapat 1/6 sebagai penyempurna 2/3 bersama 1 saudara perempuan kandung.";
+          }
+        }
+      }
+
+      // TOTAL FURUD & ASABAH
+      let allHeirs = [
+        hSuami, hIstri, hAyah, hIbu, hAnakLaki, hAnakPerempuan,
+        hCucuLaki, hCucuPerempuan, hKakek, hNenek,
+        hSdrLakiKandung, hSdrPerempuanKandung,
+        hSdrLakiSeayah, hSdrPerempuanSeayah,
+        hSdrLakiSeibu, hSdrPerempuanSeibu
+      ];
+
+      let totalFurudFraction = allHeirs.reduce((sum, h) => sum + (h.isHijab ? 0 : h.shareFraction), 0);
+      let residualFraction = Math.max(0, 1 - totalFurudFraction);
+
+      let asabahReceivers = []; 
+
+      if (anakLaki > 0) {
+        asabahReceivers.push({ heir: hAnakLaki, weight: 2 * anakLaki });
+        if (anakPerempuan > 0) {
+          asabahReceivers.push({ heir: hAnakPerempuan, weight: 1 * anakPerempuan });
+          hAnakPerempuan.shareText = "Asabah bi Ghairi (2:1)";
+          hAnakPerempuan.explanation = "Mendapat sisa harta bersama Anak Laki-laki dengan rasio 2:1.";
+        }
+        hAnakLaki.shareText = "Asabah bi Nafsi (2:1)";
+        hAnakLaki.explanation = "Mendapat sisa harta sebagai penerima utama Asabah.";
+
+      } else if (cucuLaki > 0) {
+        asabahReceivers.push({ heir: hCucuLaki, weight: 2 * cucuLaki });
+        if (cucuPerempuan > 0) {
+          asabahReceivers.push({ heir: hCucuPerempuan, weight: 1 * cucuPerempuan });
+          hCucuPerempuan.shareText = "Asabah bi Ghairi (2:1)";
+          hCucuPerempuan.explanation = "Mendapat sisa harta bersama Cucu Laki-laki dengan rasio 2:1.";
+        }
+        hCucuLaki.shareText = "Asabah bi Nafsi";
+        hCucuLaki.explanation = "Mendapat sisa harta sebagai pengganti anak laki-laki.";
+
+      } else if (ayahIsAsabah) {
+        asabahReceivers.push({ heir: hAyah, weight: 1 });
+
+      } else if (kakekIsAsabah) {
+        asabahReceivers.push({ heir: hKakek, weight: 1 });
+
+      } else if (sdrLakiKandung > 0) {
+        asabahReceivers.push({ heir: hSdrLakiKandung, weight: 2 * sdrLakiKandung });
+        if (sdrPerempuanKandung > 0) {
+          asabahReceivers.push({ heir: hSdrPerempuanKandung, weight: 1 * sdrPerempuanKandung });
+          hSdrPerempuanKandung.shareText = "Asabah bi Ghairi (2:1)";
+          hSdrPerempuanKandung.explanation = "Mendapat sisa harta bersama Saudara Laki-laki Kandung.";
+        }
+        hSdrLakiKandung.shareText = "Asabah bi Nafsi";
+        hSdrLakiKandung.explanation = "Mendapat sisa harta sebagai penerima Asabah.";
+
+      } else if (sdrPerempuanKandung > 0 && (anakPerempuan > 0 || cucuPerempuan > 0)) {
+        asabahReceivers.push({ heir: hSdrPerempuanKandung, weight: 1 * sdrPerempuanKandung });
+
+      } else if (sdrLakiSeayah > 0) {
+        asabahReceivers.push({ heir: hSdrLakiSeayah, weight: 2 * sdrLakiSeayah });
+        if (sdrPerempuanSeayah > 0) {
+          asabahReceivers.push({ heir: hSdrPerempuanSeayah, weight: 1 * sdrPerempuanSeayah });
+          hSdrPerempuanSeayah.shareText = "Asabah bi Ghairi (2:1)";
+          hSdrPerempuanSeayah.explanation = "Mendapat sisa harta bersama Saudara Laki-laki Seayah.";
+        }
+        hSdrLakiSeayah.shareText = "Asabah bi Nafsi";
+        hSdrLakiSeayah.explanation = "Mendapat sisa harta sebagai Asabah Seayah.";
+      }
+
+      // 'AWL & RADD
+      let totalWeightAsabah = asabahReceivers.reduce((sum, r) => sum + r.weight, 0);
+      let noticeEl = document.getElementById('noticeSpecialCase');
+      noticeEl.classList.add('hidden');
+
+      if (totalFurudFraction > 1.00001) {
+        // KASUS 'AWL
+        noticeEl.classList.remove('hidden');
+        noticeEl.className = "p-4 rounded-xl border bg-amber-50 border-amber-200 text-amber-900 text-xs sm:text-sm leading-relaxed";
+        noticeEl.innerHTML = `
+          <strong><i class="fa-solid fa-triangle-exclamation text-amber-600 mr-1"></i> Terjadi Kasus 'Awl:</strong> 
+          Total porsi bagian pasti (Ashabul Furud) melebihi 100% (${(totalFurudFraction * 100).toFixed(1)}%). 
+          Bagian seluruh ahli waris dikurangi secara proporsional agar total tepat 100%.
+        `;
+
+        allHeirs.forEach(h => {
+          h.finalFraction = !h.isHijab ? (h.shareFraction / totalFurudFraction) : 0;
+        });
+
+      } else if (totalFurudFraction < 0.99999 && totalWeightAsabah === 0) {
+        // KASUS RADD
+        let sumNonSpouseFurud = allHeirs.reduce((sum, h) => {
+          if (!h.isHijab && h.key !== 'suami' && h.key !== 'istri') return sum + h.shareFraction;
+          return sum;
+        }, 0);
+
+        if (sumNonSpouseFurud > 0) {
+          let spouseFraction = (hSuami.isHijab ? 0 : hSuami.shareFraction) + (hIstri.isHijab ? 0 : hIstri.shareFraction);
+          let remainingForRadd = 1 - spouseFraction;
+
+          noticeEl.classList.remove('hidden');
+          noticeEl.className = "p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 text-xs sm:text-sm leading-relaxed";
+          noticeEl.innerHTML = `
+            <strong><i class="fa-solid fa-circle-info text-emerald-600 mr-1"></i> Terjadi Kasus Radd:</strong> 
+            Terdapat sisa harta dan tidak ada penerima Asabah. Sisa dikembalikan (di-Radd) secara proporsional kepada Ashabul Furud (selain Suami/Istri).
+          `;
+
+          allHeirs.forEach(h => {
+            if (!h.isHijab) {
+              if (h.key === 'suami' || h.key === 'istri') {
+                h.finalFraction = h.shareFraction;
+              } else {
+                h.finalFraction = (h.shareFraction / sumNonSpouseFurud) * remainingForRadd;
+              }
+            } else {
+              h.finalFraction = 0;
+            }
+          });
+        } else {
+          allHeirs.forEach(h => {
+            h.finalFraction = h.isHijab ? 0 : h.shareFraction;
+          });
+        }
+
+      } else {
+        // KASUS NORMAL
+        allHeirs.forEach(h => {
+          if (!h.isHijab) {
+            let asabahMatch = asabahReceivers.find(r => r.heir.key === h.key);
+            if (asabahMatch) {
+              let portionOfResidual = (asabahMatch.weight / totalWeightAsabah) * residualFraction;
+              h.finalFraction = h.shareFraction + portionOfResidual;
+            } else {
+              h.finalFraction = h.shareFraction;
+            }
+          } else {
+            h.finalFraction = 0;
+          }
+        });
+      }
+
+      // Final calculations
+      allHeirs.forEach(h => {
+        if (!h.isHijab && h.count > 0) {
+          h.percent = (h.finalFraction * 100);
+          h.finalNominal = isCurrencyMode ? Math.round(hartaBersih * h.finalFraction) : 0;
+        } else {
+          h.percent = 0;
+          h.finalNominal = 0;
+        }
+      });
+
+      // BUILD TABLE & EXPLANATION
+      const tbody = document.getElementById('tableResultBody');
+      tbody.innerHTML = '';
+
+      let activeHeirs = allHeirs.filter(h => h.count > 0);
+      let explanationHTML = '';
+
+      let chartLabels = [];
+      let chartData = [];
+      let chartColors = [
+        '#059669', '#0284c7', '#d97706', '#7c3aed', '#db2777', 
+        '#0d9488', '#4f46e5', '#ea580c', '#65a30d', '#9333ea'
+      ];
+
+      activeHeirs.forEach((h, idx) => {
+        let nominalPerPerson = (isCurrencyMode && h.count > 0) ? Math.round(h.finalNominal / h.count) : 0;
+        
+        let tr = document.createElement('tr');
+        tr.className = h.isHijab ? 'bg-slate-50/60 text-slate-400' : 'hover:bg-slate-50/80 text-slate-800';
+
+        let statusBadge = h.isHijab 
+          ? `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-200 text-slate-600">Mahjub (Terhalang)</span>`
+          : `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">${h.shareText || 'Mendapat Waris'}</span>`;
+
+        let nominalTextGroup = isCurrencyMode 
+          ? (h.isHijab ? 'Rp 0' : formatRupiah(h.finalNominal)) 
+          : `<span class="text-slate-400 italic font-normal text-xs">Opsi harta tak diisi</span>`;
+
+        let nominalTextPerson = isCurrencyMode 
+          ? (h.isHijab ? 'Rp 0' : formatRupiah(nominalPerPerson)) 
+          : `<span class="text-slate-400 italic font-normal text-xs">Opsi harta tak diisi</span>`;
+
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-semibold">${h.name}</td>
+          <td class="py-3 px-3 text-center">${h.count} jiwa</td>
+          <td class="py-3 px-3">${statusBadge}</td>
+          <td class="py-3 px-3 text-right font-mono">${h.isHijab ? '0%' : h.percent.toFixed(2) + '%'}</td>
+          <td class="py-3 px-4 text-right font-semibold font-mono ${h.isHijab ? 'text-slate-400' : 'text-emerald-700'}">${nominalTextGroup}</td>
+          <td class="py-3 px-4 text-right font-mono ${h.isHijab ? 'text-slate-400' : 'text-slate-900'}">${nominalTextPerson}</td>
+        `;
+        tbody.appendChild(tr);
+
+        if (!h.isHijab && h.percent > 0) {
+          chartLabels.push(h.name);
+          chartData.push(h.percent);
+        }
+
+        let expText = h.isHijab 
+          ? `<strong>${h.name}:</strong> Terhalang mendapatkan warisan (${h.reasonHijab}).`
+          : `<strong>${h.name}:</strong> ${h.explanation} Bagian porsi persentase: <strong>${h.percent.toFixed(2)}%</strong>${isCurrencyMode ? `, setara dengan <strong>${formatRupiah(h.finalNominal)}</strong> (tiap orang mendapat <strong>${formatRupiah(nominalPerPerson)}</strong>)` : ''}.`;
+
+        explanationHTML += `<div class="p-3 rounded-xl ${h.isHijab ? 'bg-slate-100/70 border border-slate-200' : 'bg-emerald-50/50 border border-emerald-100'}">${expText}</div>`;
+      });
+
+      document.getElementById('explanationContainer').innerHTML = explanationHTML;
+
+      renderChart(chartLabels, chartData, chartColors, isCurrencyMode);
+    }
+
+    // CHART.JS RENDERING FUNCTION
+    function renderChart(labels, data, colors, isCurrency) {
+      const ctx = document.getElementById('faraidhChart').getContext('2d');
+      document.getElementById('chartPlaceholder').classList.add('hidden');
+
+      if (faraidhChartInstance) {
+        faraidhChartInstance.destroy();
+      }
+
+      if (data.length === 0) {
+        document.getElementById('chartPlaceholder').classList.remove('hidden');
+        return;
+      }
+
+      faraidhChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: colors.slice(0, labels.length),
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 12,
+                font: { size: 11, family: 'Inter' },
+                padding: 12
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.label || '';
+                  let val = context.parsed || 0;
+                  return ` ${label}: ${val.toFixed(2)}%`;
+                }
+              }
+            }
+          },
+          cutout: '65%'
+        }
+      });
+    }
+
+    // Initialize View on Page Load
+    window.onload = function() {
+      toggleGenderFields();
+    };
+  </script>
+</body>
+</html>
